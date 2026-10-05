@@ -1,3 +1,4 @@
+import "./globals.css";
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,8 +6,15 @@ import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Prompt } from "next/font/google";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
+
+const prompt = Prompt({
+  variable: "--font-prompt",
+  subsets: ["thai", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
 
 const geist = Geist({
   subsets: ["latin"],
@@ -67,7 +75,8 @@ export default function RootLayout({
         className={cn(
           "min-h-screen bg-background font-sans antialiased relative",
           geist.variable,
-          geistMono.variable
+          geistMono.variable,
+          prompt.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="light">

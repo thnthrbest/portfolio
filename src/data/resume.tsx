@@ -11,15 +11,20 @@ import { Docker } from "@/components/ui/svgs/docker";
 import { Kubernetes } from "@/components/ui/svgs/kubernetes";
 import { Java } from "@/components/ui/svgs/java";
 import { Csharp } from "@/components/ui/svgs/csharp";
+import { Unity } from "@/components/ui/svgs/unity";
+import { Php } from "@/components/ui/svgs/php";
+import { Cpp } from "@/components/ui/svgs/cpp";
+import { Flutter } from "@/components/ui/svgs/flutter";
+import { Mysql } from "@/components/ui/svgs/mysql";
 
 export const DATA = {
-  name: "Dillion Verma",
-  initials: "DV",
-  url: "https://dillion.io",
-  location: "San Francisco, CA",
-  locationLink: "https://www.google.com/maps/place/sanfrancisco",
+  name: "Thanatorn",
+  initials: "Best",
+  url: "https://dillion.io",//เด้ะเอาลิ้งตัวเองมาใส่
+  //location: "San Francisco, CA",
+  //locationLink: "https://www.google.com/maps/place/sanfrancisco",
   description:
-    "Software Engineer turned Entrepreneur. I love building things and helping people. Very active on Twitter.",
+    "CPE or CP with a passion for learning to be a software developer, web developer. ",
   summary:
     "At the end of 2022, I quit my job as a software engineer to go fulltime into building and scaling my own SaaS businesses. In the past, [I pursued a double degree in computer science and business](/#education), [interned at big tech companies in Silicon Valley](https://www.youtube.com/watch?v=d-LJ2e5qKdE), and [competed in over 21 hackathons for fun](/#hackathons). I also had the pleasure of being a part of the first ever in-person cohort of buildspace called [buildspace sf1](https://buildspace.so/sf1).",
   avatarUrl: "/me.png",
@@ -29,19 +34,47 @@ export const DATA = {
     { name: "Typescript", icon: Typescript },
     { name: "Node.js", icon: Nodejs },
     { name: "Python", icon: Python },
-    { name: "Go", icon: Golang },
     { name: "Postgres", icon: Postgresql },
+    { name: "Mysql", icon: Mysql },
     { name: "Docker", icon: Docker },
-    { name: "Kubernetes", icon: Kubernetes },
-    { name: "Java", icon: Java },
-    { name: "C++", icon: Csharp },
+    { name: "Unity", icon: Unity },
+    { name: "flutter", icon: Flutter },
+    { name: "C++", icon: Cpp },
+    { name: "Php", icon: Php },
+    { name: "C#", icon: Csharp },
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
+  contactinfo: [
+    {
+      name: "Email",
+      value: "thanabest08@gmail.com",
+      url: "#",
+      icon: Icons.email
+    },
+    {
+      name: "Facebook",
+      value: "Thana Best",
+      url: "https://www.facebook.com/thana.best.2024/",
+      icon: Icons.facebook
+    },
+    {
+      name: "Phone",
+      value: "+0917395070",
+      url: "#",
+      icon: Icons.phone
+    },
+    {
+      name: "Instagram",
+      value: "thnthrbest",
+      url: "https://www.instagram.com/thnthrbest/",
+      icon: Icons.instagram
+    },
+  ],
   contact: {
-    email: "hello@example.com",
+    email: "thanabest08@gmail.com",
     tel: "+123456789",
     social: {
       GitHub: {
@@ -75,73 +108,13 @@ export const DATA = {
         name: "Send Email",
         url: "#",
         icon: Icons.email,
-
         navbar: false,
       },
     },
   },
 
+
   work: [
-    {
-      company: "Atomic Finance",
-      href: "https://atomic.finance",
-      badges: [],
-      location: "Remote",
-      title: "Bitcoin Protocol Engineer",
-      logoUrl: "/atomic.png",
-      start: "May 2021",
-      end: "Oct 2022",
-      description:
-        "Implemented the Bitcoin discreet log contract (DLC) protocol specifications as an open source Typescript SDK. Dockerized all microservices and setup production kubernetes cluster. Architected a data lake using AWS S3 and Athena for historical backtesting of bitcoin trading strategies. Built a mobile app using react native and typescript.",
-    },
-    {
-      company: "Shopify",
-      badges: [],
-      href: "https://shopify.com",
-      location: "Remote",
-      title: "Software Engineer",
-      logoUrl: "/shopify.svg",
-      start: "January 2021",
-      end: "April 2021",
-      description:
-        "Implemented a custom Kubernetes controller in Go to automate the deployment of MySQL and ProxySQL custom resources in order to enable 2,000+ internal developers to instantly deploy their app databases to production. Wrote several scripts in Go to automate MySQL database failovers while maintaining master-slave replication topologies and keeping Zookeeper nodes consistent with changes.",
-    },
-    {
-      company: "Nvidia",
-      href: "https://nvidia.com/",
-      badges: [],
-      location: "Santa Clara, CA",
-      title: "Software Engineer",
-      logoUrl: "/nvidia.png",
-      start: "January 2020",
-      end: "April 2020",
-      description:
-        "Architected and wrote the entire MVP of the GeForce Now Cloud Gaming internal admin and A/B testing dashboard using React, Redux, TypeScript, and Python.",
-    },
-    {
-      company: "Splunk",
-      href: "https://splunk.com",
-      badges: [],
-      location: "San Jose, CA",
-      title: "Software Engineer",
-      logoUrl: "/splunk.svg",
-      start: "January 2019",
-      end: "April 2019",
-      description:
-        "Co-developed a prototype iOS app with another intern in Swift for the new Splunk Phantom security orchestration product (later publicly demoed and launched at .conf annual conference in Las Vegas). Implemented a realtime service for the iOS app in Django (Python) and C++; serialized data using protobufs transmitted over gRPC resulting in an approximate 500% increase in data throughput.",
-    },
-    {
-      company: "Lime",
-      href: "https://li.me/",
-      badges: [],
-      location: "San Francisco, CA",
-      title: "Software Engineer",
-      logoUrl: "/lime.svg",
-      start: "January 2018",
-      end: "April 2018",
-      description:
-        "Proposed and implemented an internal ruby API for sending/receiving commands to scooters over LTE networks. Developed a fully automated bike firmware update system to handle asynchronous firmware updates of over 100,000+ scooters worldwide, and provide progress reports in real-time using React, Ruby on Rails, PostgreSQL and AWS EC2 saving hundreds of developer hours.",
-    },
     {
       company: "Mitre Media",
       href: "https://mitremedia.com/",
@@ -315,22 +288,33 @@ export const DATA = {
   ],
   hackathons: [
     {
-      title: "Hack Western 5",
-      dates: "November 23rd - 25th, 2018",
-      location: "London, Ontario",
+      title: "Cyber Hero นครเชียงราย CTF",
+      dates: "November 11 2026",
+      location: "online",
       description:
-        "Developed a mobile application which delivered bedtime stories to children using augmented reality.",
+        "การแข่งขันทักษะทางด้าน Cybersecurity ในรูปแบบ CTF เพื่อเฟ้นหาและพัฒนาศักยภาพเยาวชนรุ่นใหม่ให้มีความรู้และพร้อมรับมือกับภัยคุกคามทางไซเบอร์",
       image:
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-western.png",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
     {
-      title: "Hack The North",
-      dates: "September 14th - 16th, 2018",
+      title: "National Software Contest - NSC Thailand (รอบชิงชนะเลิศ)",
+      dates: "August 21 2026",
       location: "Waterloo, Ontario",
       description:
-        "Developed a mobile application which delivers university campus wide events in real time to all students.",
+        "เวทีการแข่งขันเขียนโปรแกรมและพัฒนาซอฟต์แวร์ระดับประเทศสำหรับนักเรียน นิสิต และนักศึกษา",
+      image:
+        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-the-north.png",
+      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
+      links: [],
+    },
+    {
+      title: "Thailand Cyber Top Talent 2026",
+      dates: "August 14 2026",
+      location: "Waterloo, Ontario",
+      description:
+        "การแข่งขันทักษะทางไซเบอร์ในรูปแบบ Capture The Flag (CTF) รายการที่ใหญ่ที่สุดของประเทศไทย",
       image:
         "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-the-north.png",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",

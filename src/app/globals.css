@@ -118,6 +118,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-geist-sans), var(--font-prompt), sans-serif;
   }
 
   /* Shiki dual theme support */
@@ -232,5 +233,4 @@
   .prose :where(tbody tr:last-child td):not(:where([class~="not-prose"] *)) {
     @apply border-b-0;
   }
-
 }
