@@ -1,193 +1,105 @@
-import { allPosts } from "content-collections";
-import { formatDate } from "@/lib/utils";
+/* eslint-disable @next/next/no-img-element */
 import { DATA } from "@/data/resume";
+import { Badge } from "@/components/ui/badge";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { MDXContent } from "@content-collections/mdx/react";
-import { mdxComponents } from "@/mdx-components";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { notFound } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 
-function getSortedPosts() {
-  return [...allPosts].sort((a, b) => {
-    if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
-      return -1;
-    }
-    return 1;
-  });
+type Params = { params: Promise<{ slug: string }> };
+
+function findProject(slug: string) {
+  return DATA.portfolio.find((p) => p.slug === slug);
 }
 
-export async function generateStaticParams() {
-  return allPosts.map((post) => ({
-    slug: post._meta.path.replace(/\.mdx$/, ""),
-  }));
+export function generateStaticParams() {
+  return DATA.portfolio.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{
-    slug: string;
-  }>;
-}): Promise<Metadata | undefined> {
-  const { slug } = await params;
-  const post = allPosts.find((p) => p._meta.path.replace(/\.mdx$/, "") === slug);
-
-  if (!post) {
-    return undefined;
-  }
-
-  let {
-    title,
-    publishedAt: publishedTime,
-    summary: description,
-    image,
-  } = post;
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      publishedTime,
-      url: `${DATA.url}/blog/${slug}`,
-      ...(image && {
-        images: [
-          {
-            url: `${DATA.url}${image}`,
-          },
-        ],
-      }),
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      ...(image && {
-        images: [`${DATA.url}${image}`],
-      }),
-    },
-  };
+export async function generateMetadata({ params }: Params): Promise<Metadata | undefined> {
+  const project = findProject((await params).slug);
+  if (!project) return undefined;
+  return { title: project.title, description: project.description };
 }
 
-export default async function Blog({
-  params,
-}: {
-  params: Promise<{
-    slug: string;
-  }>;
-}) {
-  const { slug } = await params;
-  const sortedPosts = getSortedPosts();
-  const currentIndex = sortedPosts.findIndex(
-    (p) => p._meta.path.replace(/\.mdx$/, "") === slug
-  );
-  const post = sortedPosts[currentIndex];
-
-  if (!post) {
-    notFound();
-  }
-
-  const previousPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
-
-  const getSlug = (post: (typeof sortedPosts)[0]) =>
-    post._meta.path.replace(/\.mdx$/, "");
-
-  const jsonLdContent = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
-    description: post.summary,
-    image: post.image
-      ? `${DATA.url}${post.image}`
-      : `${DATA.url}/blog/${slug}/opengraph-image`,
-    url: `${DATA.url}/blog/${slug}`,
-    author: {
-      "@type": "Person",
-      name: DATA.name,
-    },
-  }).replace(/</g, "\\u003c");
+export default async function ProjectPage({ params }: Params) {
+  const project = findProject((await params).slug);
+  if (!project) notFound();
 
   return (
-    <section id="blog">
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: jsonLdContent,
-        }}
-      />
-      <div className="flex justify-start gap-4 items-center">
-        <Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-2 py-1 inline-flex items-center gap-1 mb-6 group" aria-label="Back to Blog">
-          <ChevronLeft className="size-3 group-hover:-translate-x-px transition-transform" />
-          Back to Blog
-        </Link>
-      </div>
-      <div className="flex flex-col gap-4">
-        <h1 className="title font-semibold text-3xl md:text-4xl tracking-tighter leading-tight">
-          {post.title}
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          {formatDate(post.publishedAt)}
-        </p>
-      </div>
-      <div className="my-6 flex w-full items-center">
-        <div
-          className="flex-1 h-px bg-border"
-          style={{
-            maskImage:
-              "linear-gradient(90deg, transparent, black 8%, black 92%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(90deg, transparent, black 8%, black 92%, transparent)",
-          }}
-        />
-      </div>
-      <article className="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
-        <MDXContent code={post.mdx} components={mdxComponents} />
-      </article>
+    <section id="project">
+      <Link
+        href="/blog"
+        className="text-sm text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-2 py-1 inline-flex items-center gap-1 mb-6 group"
+      >
+        <ChevronLeft className="size-3 group-hover:-translate-x-px transition-transform" />
+        Back to Projects
+      </Link>
 
-      <nav className="mt-12 pt-8 max-w-2xl">
-        <div className="flex flex-col sm:flex-row justify-between gap-4">
-          {previousPost ? (
-            <Link
-              href={`/blog/${getSlug(previousPost)}`}
-              className="group flex-1 flex flex-col gap-1 p-4 rounded-lg border border-border hover:bg-accent/50 transition-colors"
-            >
-              <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                <ChevronLeft className="size-3" />
-                Previous
-              </span>
-              <span className="text-sm font-medium group-hover:text-foreground transition-colors whitespace-normal wrap-break-word">
-                {previousPost.title}
-              </span>
-            </Link>
-          ) : (
-            <div className="hidden sm:block flex-1" />
-          )}
-
-          {nextPost ? (
-            <Link
-              href={`/blog/${getSlug(nextPost)}`}
-              className="group flex-1 flex flex-col gap-1 p-4 rounded-lg border border-border hover:bg-accent/50 transition-colors text-right"
-            >
-              <span className="flex items-center justify-end gap-1 text-xs text-muted-foreground">
-                Next
-                <ChevronRight className="size-3" />
-              </span>
-              <span className="text-sm font-medium group-hover:text-foreground transition-colors whitespace-normal wrap-break-word">
-                {nextPost.title}
-              </span>
-            </Link>
-          ) : (
-            <div className="hidden sm:block flex-1" />
-          )}
+      <div className="flex flex-col gap-3">
+        <h1 className="font-semibold text-3xl tracking-tighter leading-tight">{project.title}</h1>
+        <time className="text-sm text-muted-foreground">{project.dates}</time>
+        <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+        <div className="flex flex-wrap gap-1">
+          {project.tags.map((tag) => (
+            <Badge key={tag} variant="outline" className="text-[11px] font-medium border border-border h-6 w-fit px-2">
+              {tag}
+            </Badge>
+          ))}
         </div>
-      </nav>
+        {project.links.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {project.links.map((link) => (
+              <Link key={link.title} href={link.href} target="_blank" rel="noopener noreferrer">
+                <Badge className="text-xs bg-primary text-primary-foreground">{link.title}</Badge>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {project.image && (
+        <img src={project.image} alt={project.title} className="w-full mt-8 rounded-xl border border-border object-cover max-h-96" />
+      )}
+
+      {project.gallery.length > 0 && (
+        <div className="mt-10 flex flex-col gap-4">
+          <h2 className="text-xl font-bold">ภาพตัวอย่าง</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {project.gallery.map((src, i) => (
+              <img key={src + i} src={src} alt={`${project.title} ${i + 1}`} className="w-full rounded-xl border border-border object-cover" />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {project.certificates.length > 0 && (
+        <div className="mt-10 flex flex-col gap-4">
+          <h2 className="text-xl font-bold">ใบเกียรติบัตร</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {project.certificates.map((src, i) => (
+              <img key={src + i} src={src} alt={`Certificate ${i + 1}`} className="w-full rounded-xl border border-border object-contain bg-card" />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {project.competitions.length > 0 && (
+        <div className="mt-10 flex flex-col gap-4">
+          <h2 className="text-xl font-bold">งานแข่งขัน</h2>
+          <div className="flex flex-col gap-3">
+            {project.competitions.map((c) => (
+              <div key={c.name + c.date} className="border border-border rounded-xl p-4 flex flex-col gap-1">
+                <h3 className="font-semibold">{c.name}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {c.date} · {c.location}
+                </p>
+                <p className="text-sm">ผล: {c.result}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
